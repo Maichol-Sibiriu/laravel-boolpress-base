@@ -5,6 +5,12 @@
     <div class="container text-center">
         <h1>BLOGPAGE</h1>
 
+        @if (session('post-deleted'))
+            <div class="alert alert-success">
+                Post '{{ session('post-deleted') }}' has been deleted successfully.
+            </div>
+        @endif
+
         @forelse ($posts as $post)
             <div class="mb-10">
                 <h2>{{ $post->title }}</h2>
@@ -17,6 +23,7 @@
             <a href="{{ route('posts.create') }}">Create New Post</a>
         @endforelse
 
+        {{ $posts->links() }}
     </div>
     
 @endsection
