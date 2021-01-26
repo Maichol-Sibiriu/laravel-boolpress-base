@@ -14,12 +14,17 @@
             <img width="100" src="{{ asset('storage/' . $post->path_img) }}" alt="{{ $post->title }}">
         @endif
         
-        <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
+        <div class="mt-3">
 
-            <input class="btn btn-primary" type="submit" value="delete">
-        </form>
+            <a class="btn btn-primary" href="{{ route('posts.edit', $post->slug) }}">Edit</a>
+
+            <form class="d-inline" action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+    
+                <input class="btn btn-primary" type="submit" value="delete">
+            </form>
+        </div>
     </div>
     
 @endsection
