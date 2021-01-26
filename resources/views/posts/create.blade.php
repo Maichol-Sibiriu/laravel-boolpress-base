@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="body">Description</label>
-                <textarea class="form-control" name="body" id="body" value="{{ old('body') }}"></textarea>
+                <textarea class="form-control" type="text" name="body" id="body" value="{{ old('body') }}"></textarea>
             </div>
 
             <div class="form-group">
