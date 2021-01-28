@@ -44,6 +44,20 @@
             </div>
 
             <div class="form-group">
+
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="tags[]" id="tag-{{ $tag->id }}" value="{{ $tag->id }}"
+                        @if ($post->tags->contains($tag->id))
+                            checked
+                        @endif>
+                        <label for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+                    </div>
+                @endforeach
+
+            </div>
+
+            <div class="form-group">
                 <input class="btn btn-primary" type="submit" value="update post">
             </div>
         </form>

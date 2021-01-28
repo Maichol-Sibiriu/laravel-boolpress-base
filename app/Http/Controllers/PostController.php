@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\post;
+use App\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $tags = Tag::all();
+
+        return view('posts.create', compact('tags'));
     }
 
     /**
@@ -56,6 +59,9 @@ class PostController extends Controller
         $saved = $newPost->save();
 
         if($saved){
+            if(!empty($data['tags'])){
+                $newPost->tags()->attach($data['tags']); 
+            }
            return redirect()->route('posts.index');
         } 
         else{
@@ -87,7 +93,9 @@ class PostController extends Controller
     {
         $post = post::where('slug' , $slug)->first();
 
-        return view('posts.edit', compact('post'));
+        $tags = Tag::all();
+
+        return view('posts.edit', compact('post' , 'tags'));
     }
 
     /**
@@ -120,6 +128,12 @@ class PostController extends Controller
         $updated = $post->update($data);
 
         if($updated){
+            if(!empty($data['tags'])){
+                $post->tags()->sync($data['tags']);
+            }
+            else{
+                $post->tags()->detach();
+            }
 
             return redirect()->route('posts.show', $post->slug);
         }
@@ -141,6 +155,7 @@ class PostController extends Controller
         $title = $post->title;
         $image = $post->path_img;
         $deleted = $post->delete();
+        $post->tags()->detach();
 
         if($deleted){
             if(! empty($image)){
